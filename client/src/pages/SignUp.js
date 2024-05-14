@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-
+import backgroundImage from "../assets/background1.jpg";
+import left_image from "../assets/file_sharing2.jpg";
+import left_image2 from "../assets/signup.avif";
 import {
   Box,
   Typography,
@@ -12,6 +14,7 @@ import {
   IconButton,
   Stack,
   Card,
+  CardMedia,
 } from "@mui/material";
 import axios from "axios";
 
@@ -19,36 +22,56 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { makeStyles } from "@material-ui/styles";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   all: {
     display: "flex",
     height: "100vh",
-    width: "100%",
+    width: "100vw",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: 'green'
+    // backgroundColor: "#fffff",
+    backgroundImage:
+      "linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%);",
+    // backgroundImage: `url(${backgroundImage})`,
   },
   signupBox: {
     // backgroundColor: 'grey',
-    width: "40%",
+    width: "60%",
+    height: "60%",
     boxShadow: "0.3rem 0.3rem 0.6rem grey",
-    borderRadius: 5,
-    padding: "1rem",
+    // borderRadius: 25,
+    paddingRight: "1rem",
+    backgroundColor: "#ffffff",
+
+    display: "flex",
+    flexDirection: "row !important",
+    justifyContent: "space-evenly",
   },
   signup1: {
     textAlign: "center",
-    fontSize: "2rem",
+    fontSize: "3rem !important",
     fontWeight: "bold",
-    backgroundColor: "#78866B",
-    borderRadius: 4,
-    padding: "0.5rem",
+    // borderRadius: 4,
+    padding: "1rem",
+
     // marginBottom: "0.1rem"
   },
   form: {
-    width: "90%",
+    width: "100%",
     display: "flex",
     flexDirection: "column",
+    margin: "auto",
+    gap: 20,
+    // backgroundColor: "transparent",
+    backgroundColor: "#ffffff",
+  },
+  inputField: {
+    "& input:-webkit-autofill": {
+      "-webkit-box-shadow":
+        "0 0 0 30px white inset !important" /* Override Chrome's autofill background color */,
+    },
   },
 });
 
@@ -124,100 +147,128 @@ const SignUp = () => {
   return (
     <Box className={classes.all}>
       <Stack gap={2} className={classes.signupBox}>
-        <Typography className={classes.signup1}>SignUp</Typography>
+        <Card sx={{ width: "50%" }}>
+          {/* <CardMedia
+            component="img"
+            // height="300"
+            image={left_image}
+            alt="Paella dish"
+          /> */}
+          <CardMedia
+            component="img"
+            // height="300"
+            image={left_image2}
+            alt="Paella dish"
+          />
+        </Card>
 
-        <form onSubmit={handleSubmit} className={classes.form}>
-          <Stack gap={2}>
-            <TextField
-              required
-              label="First Name"
-              value={firstName}
-              onChange={(e) => setfirstName(e.target.value)}
-            />
-            <TextField
-              required
-              label="Last Name"
-              value={lastName}
-              onChange={(e) => setlastName(e.target.value)}
-            />
-            <TextField
-              required
-              type="email"
-              label="Email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-
-            <FormControl required>
-              <InputLabel htmlFor="filled-adornment-password">
-                Password
-              </InputLabel>
-              <FilledInput
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                id="filled-adornment-password2"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+        <Box sx={{ width: "50%" }}>
+          <form onSubmit={handleSubmit} className={classes.form}>
+            <Stack gap={2}>
+              <Typography className={classes.signup1}>SignUp</Typography>
+              <TextField
+                required
+                label="First Name"
+                value={firstName}
+                onChange={(e) => setfirstName(e.target.value)}
               />
-            </FormControl>
-
-            <FormControl required>
-              <InputLabel htmlFor="filled-adornment-password">
-                Confirm Password
-              </InputLabel>
-              <FilledInput
-                value={confirmPassword}
-                onChange={(e) => {
-                  setconfirmPassword(e.target.value);
-                }}
-                id="filled-adornment-password"
-                type={showPassword2 ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword2}
-                      onMouseDown={handleMouseDownPassword2}
-                      edge="end"
-                    >
-                      {showPassword2 ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+              <TextField
+                required
+                label="Last Name"
+                value={lastName}
+                onChange={(e) => setlastName(e.target.value)}
               />
-            </FormControl>
+              <TextField
+                className={classes.inputField}
+                required
+                type="email"
+                label="Email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+
+              <FormControl required>
+                <InputLabel htmlFor="filled-adornment-password">
+                  Password
+                </InputLabel>
+                <FilledInput
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  id="filled-adornment-password2"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+
+              <FormControl required>
+                <InputLabel htmlFor="filled-adornment-password">
+                  Confirm Password
+                </InputLabel>
+                <FilledInput
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setconfirmPassword(e.target.value);
+                  }}
+                  id="filled-adornment-password"
+                  type={showPassword2 ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword2}
+                        onMouseDown={handleMouseDownPassword2}
+                        edge="end"
+                      >
+                        {showPassword2 ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Stack>
             <Stack
               direction={"row"}
               alignItems={"center"}
-              justifyContent={"space-around"}
+              justifyContent={"space-between"}
+              width={"100%"}
             >
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ alignItems: "center", width: "50%" }}
-                // onClick={}
+              <Link
+                to="/login"
+                style={{
+                  textDecoration: "none",
+                  // backgroundColor: "red",
+                  width: "50%",
+                }}
               >
-                SignUp
-              </Button>
-              <Button onClick={() => {}}>HAVE AN ACCOUNT?</Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ alignItems: "center", width: "100%" }}
+                >
+                  SignUp
+                </Button>
+              </Link>
+              <Link to="/login">
+                <Button>HAVE AN ACCOUNT?</Button>
+              </Link>
             </Stack>
-          </Stack>
-        </form>
+          </form>
+        </Box>
       </Stack>
     </Box>
   );
