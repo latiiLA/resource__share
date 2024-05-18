@@ -1,17 +1,27 @@
 const User = require("../Models/userModel");
+const bcrypt = require("bcryptjs");
 
 const createUser = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
+    const { firstName, lastName, email, password, confirmPassword } = req.body;
 
-    const { username, email, password, confirmPassword } = req.body;
+    if (password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "Passwords do not match!" });
+    }
+
+    const hashPassword = await bcrypt.hash(password, 13);
+    console.log(hashPassword);
 
     const user = await User.create({
-      username,
+      firstName,
+      lastName,
       email,
-      password,
-      confirmPassword,
+      password: hashPassword,
     });
+
     console.log(user);
     res.status(200).json({
       status: "success",
@@ -19,6 +29,10 @@ const createUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while creating the user.",
+    });
   }
 };
 
@@ -40,23 +54,21 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
     console.log(email, password);
 
-    const user = await User.findOne({ email: email }).select({ password });
+    const user = await User.findOne({ email: email }).select("+password");
     console.log(user);
 
     if (!user) {
       // User not found
+      // res.send("No such user.");
       return res.status(401).json({ message: "User not found" });
     }
-
-    if (user && user.password === password) {
-      res.status(200).json({
-        status: "success",
-        user,
-      });
-    } else {
-      // Incorrect password
-      return res.status(401).json({ message: "Invalid email or password" });
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      // res.send("wrong password");
+      return res.status(401).json({ message: "wrong password" });
     }
+
+    return res.status(200).json({ message: "Login successful", user });
 
     // Login successful
     // Generate JWT token or set session
@@ -65,6 +77,10 @@ const loginUser = async (req, res) => {
     // console.log(user);
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while logging in the user.",
+    });
   }
 };
 

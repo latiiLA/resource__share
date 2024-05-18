@@ -4,6 +4,7 @@ const router = express.Router();
 
 const { createUser, getUser } = require("../Controller/userController");
 const { loginUser } = require("../Controller/userController");
+const { verifyEmail } = require("../Controller/userController");
 
 // CREATE USER
 router.route("/createUser").post(createUser);

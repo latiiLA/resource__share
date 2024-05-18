@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import backgroundImage from "../assets/background1.jpg";
 import left_image from "../assets/file_sharing2.jpg";
 import left_image2 from "../assets/signup.avif";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -22,7 +23,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { makeStyles } from "@material-ui/styles";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   all: {
@@ -44,7 +44,6 @@ const useStyles = makeStyles({
     // borderRadius: 25,
     paddingRight: "1rem",
     backgroundColor: "#ffffff",
-
     display: "flex",
     flexDirection: "row !important",
     justifyContent: "space-evenly",
@@ -53,18 +52,12 @@ const useStyles = makeStyles({
     textAlign: "center",
     fontSize: "3rem !important",
     fontWeight: "bold",
-    // borderRadius: 4,
-    padding: "1rem",
-
-    // marginBottom: "0.1rem"
   },
   form: {
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
-    gap: 20,
-    // backgroundColor: "transparent",
+    gap: 5,
     backgroundColor: "#ffffff",
   },
   inputField: {
@@ -77,6 +70,7 @@ const useStyles = makeStyles({
 
 const SignUp = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [showPassword2, setShowPassword2] = React.useState(false);
@@ -119,28 +113,32 @@ const SignUp = () => {
         password.length
       );
       try {
-        const username = firstName + " " + lastName;
         const response = await axios.post(
           "http://localhost:4000/auth/createUser",
           {
-            username,
+            firstName,
+            lastName,
             email,
             password,
             confirmPassword,
           }
         );
         console.log("New user is created:", response.data);
+        alert("New user is created");
         setfirstName("");
         setlastName("");
         setEmail("");
         setPassword("");
         setconfirmPassword("");
+        navigate("/login");
         // You can redirect the user to the newly created post or update the post list
       } catch (error) {
         console.error("Error creating a user:", error);
+        alert("Error creating a user");
       }
     } else {
       console.log("Error, invalid signup data ");
+      alert("Error, invalid signup data");
     }
   };
 
@@ -148,21 +146,15 @@ const SignUp = () => {
     <Box className={classes.all}>
       <Stack gap={2} className={classes.signupBox}>
         <Card sx={{ width: "50%" }}>
-          {/* <CardMedia
-            component="img"
-            // height="300"
-            image={left_image}
-            alt="Paella dish"
-          /> */}
           <CardMedia
             component="img"
             // height="300"
             image={left_image2}
-            alt="Paella dish"
+            alt="sign up image"
           />
         </Card>
 
-        <Box sx={{ width: "50%" }}>
+        <Box sx={{ width: "50%", margin: "auto" }}>
           <form onSubmit={handleSubmit} className={classes.form}>
             <Stack gap={2}>
               <Typography className={classes.signup1}>SignUp</Typography>
@@ -247,22 +239,14 @@ const SignUp = () => {
               justifyContent={"space-between"}
               width={"100%"}
             >
-              <Link
-                to="/login"
-                style={{
-                  textDecoration: "none",
-                  // backgroundColor: "red",
-                  width: "50%",
-                }}
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ alignItems: "center", width: "60%" }}
               >
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{ alignItems: "center", width: "100%" }}
-                >
-                  SignUp
-                </Button>
-              </Link>
+                SignUp
+              </Button>
+
               <Link to="/login">
                 <Button>HAVE AN ACCOUNT?</Button>
               </Link>

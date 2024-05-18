@@ -53,17 +53,13 @@ const useStyles = makeStyles({
     textAlign: "center",
     fontSize: "3rem !important",
     fontWeight: "bold",
-    // borderRadius: 4,
-    padding: "1rem",
-
-    // marginBottom: "0.1rem"
   },
   form: {
     width: "100%",
     display: "flex",
     flexDirection: "column",
     margin: "auto",
-    gap: 20,
+    gap: 5,
     // backgroundColor: "transparent",
     backgroundColor: "#ffffff",
   },
@@ -103,10 +99,12 @@ const Login = () => {
 
         setEmail("");
         setPassword("");
+        alert("Successfully Logged In.");
         navigate("/");
         // You can redirect the user to the newly created post or update the post list
       } catch (error) {
         console.error("Error logging in:", error);
+        alert("Error logging in");
       }
     } else {
       console.log("Error, invalid login data ");

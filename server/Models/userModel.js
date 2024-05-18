@@ -2,9 +2,13 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
   {
-    username: {
+    firstName: {
       type: String,
       required: [true, "please enter firstName"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "please enter lastName"],
     },
     email: {
       type: String,
@@ -17,20 +21,24 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter password"],
       trim: true,
-      minLength: 8,
+      // minLength: 8,
       select: false,
     },
-    confirmPassword: {
-      type: String,
-      required: [true, "please enter password"],
-      trim: true,
-      minLength: 8,
-      select: false,
-      validator: function (value) {
-        return value == this.password;
-      },
-      message: "password does not match",
+    verified: {
+      type: Boolean,
+      default: false,
     },
+    // confirmPassword: {
+    //   type: String,
+    //   required: [true, "please enter password"],
+    //   trim: true,
+    //   minLength: 8,
+    //   select: false,
+    //   validator: function (value) {
+    //     return value == this.password;
+    //   },
+    //   message: "password does not match",
+    // },
   },
   { timeStamps: true }
 );
